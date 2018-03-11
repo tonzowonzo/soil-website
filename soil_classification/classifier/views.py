@@ -12,23 +12,7 @@ link = 'https://github.com/tonzowonzo/soil-project'
 
 def title(request):
     return HttpResponse('Welcome to the soil image classifier.')
-    
-def current_date_time(request):
-    '''
-    Display the current time, this is dynamic on the website.
-    '''
-    now = datetime.datetime.now()
-    # Take away microseconds so it only displays up to seconds in accuracy.
-    now = now.strftime('%Y-%m-%d %H:%M:%S')
-    html = '<html><body>It is now %s.</body></html>' % now
-    return HttpResponse(html)
-    
-def hours_ahead(request, offset):
-    offset = int(offset)
-    dt = datetime.datetime.now() + datetime.timedelta(hours=offset)
-    html = "<html><body>In %s hour(s), it will be %s.</body></html>" % (offset, dt)
-    return HttpResponse(html)
-    
+        
 def about(request):
     raw_template = '''<p> Project Version {{ version }} </p>
     

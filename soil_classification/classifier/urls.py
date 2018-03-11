@@ -4,7 +4,6 @@ import re
 
 urlpatterns = [
         path('', views.title, name='title'),
-        path('time/', views.current_date_time, name='datetime'),
         path('about/', views.about, name='about' ),
         path('statistics/', views.statistics, name='statistics' ),
         path('process/', views.process, name='process' ),
