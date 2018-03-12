@@ -1,9 +1,11 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
 from django.template import Template, Context
+from classifier.forms import ContactForm
+from django.core.mail import send_mail, get_connection
 
 
 # Set variables
@@ -46,4 +48,22 @@ def examples(request):
     return HttpResponse('Here are some examples')
     
 def contact(request):
-    return HttpResponse('Contact details: ')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cleanData = form.cleaned_data
+            connect = get_connection('django.core.mail.backends.console.EmailBackend')
+            send_mail(cleanData['subject'],
+                      cleanData['message'],
+                      cleanData.get('email', 'noreply@example.com'),
+                      ['twonzo72@gmail.com'],
+                      connection=connect)
+            return HttpResponseRedirect('/contact/thanks/')
+            
+    else:
+        form = ContactForm()
+        
+    return render(request, 'contact_form.html', {'form': form})
+    
+def thanks(request):
+    return HttpResponse('Thanks for the email, we will respond shortly')
