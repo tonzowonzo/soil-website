@@ -55,13 +55,13 @@ def contact(request):
             connect = get_connection('django.core.mail.backends.console.EmailBackend')
             send_mail(cleanData['subject'],
                       cleanData['message'],
-                      cleanData.get('email', 'noreply@example.com'),
+                      cleanData.get('email', 'twonzo72@gmail.com'),
                       ['twonzo72@gmail.com'],
                       connection=connect)
-            return HttpResponseRedirect('/contact/thanks/')
+            return HttpResponseRedirect('/classifier/contact/thanks/')
             
     else:
-        form = ContactForm()
+        form = ContactForm(initial={'subject': 'Subject'})
         
     return render(request, 'contact_form.html', {'form': form})
     
