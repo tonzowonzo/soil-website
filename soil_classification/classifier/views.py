@@ -6,7 +6,7 @@ import datetime
 from django.template import Template, Context
 from classifier.forms import ContactForm
 from django.core.mail import send_mail, get_connection
-
+from django.template.loader import get_template
 
 # Set variables
 version = '0.1'
@@ -67,3 +67,9 @@ def contact(request):
     
 def thanks(request):
     return HttpResponse('Thanks for the email, we will respond shortly')
+    
+def test_page(request):
+    t = get_template('test.html')
+    c = {'test_words': 'This is a test.',
+         'test_word2': 'This is test number 2.'}
+    return HttpResponse(t.render(c))
