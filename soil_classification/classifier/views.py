@@ -3,8 +3,9 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
-from django.template import Template, Context
+from django.template import Template, Context, RequestContext
 from classifier.forms import ContactForm
+from classifier.forms import custom_proc
 from django.core.mail import send_mail, get_connection
 from django.template.loader import get_template
 
@@ -16,28 +17,27 @@ def title(request):
     return HttpResponse('Welcome to the soil image classifier.')
         
 def about(request):
-    raw_template = '''<p> Project Version {{ version }} </p>
-    
-    <p>The projects goal is to classify soil type based on images alone. It uses
-    multiple convolutional neural networks in order to come up with a prediction.
-    More information can be found at {{ link }}. </p>'''
-    
-    t = Template(raw_template)
-    c = Context({'version': version,
-                 'link': link
-                 })
+    '''
+    Page that contains information about the project, how it works and links
+    to code.
+    '''
+    t = get_template('about.html')
+    c = {'version': version,
+         'link': link
+         }
     rendered_template = t.render(c)
     return HttpResponse(rendered_template)
     
 def statistics(request):
+    '''
+    Page that contains statistics on soil commanality, distribution along with
+    geostatistics using GIS plugin.
+    '''
     time = datetime.datetime.now()
     time = time.strftime('%Y-%m-%d %H:%M:%S')
-    raw_template = '''<p> Soil Statistics </p>
-    
-    <p>This page displays statistics about geolocations and soil distributions
-    as well as overall soil commonality at the current time: {{ time }} .</p>'''
-    t = Template(raw_template)
-    c = Context({'time': time})
+
+    t = get_template('statistics.html')
+    c = {'time': time}
     rendered_template = t.render(c)
     return HttpResponse(rendered_template)
     
@@ -69,7 +69,26 @@ def thanks(request):
     return HttpResponse('Thanks for the email, we will respond shortly')
     
 def test_page(request):
-    t = get_template('test.html')
+    '''
+    A page for testing html / css
+    '''
+    t = get_template('view.html')
     c = {'test_words': 'This is a test.',
          'test_word2': 'This is test number 2.'}
+    return HttpResponse(t.render(c))
+            
+def test_2(request):
+    '''
+    A page for testing Django backend changes.
+    '''
+    t = get_template('test2.html')
+    c = custom_proc(request)
+    return HttpResponse(t.render(c))
+    
+def base(request):
+    '''
+    Base layout for all pages.
+    '''
+    t = get_template('base.html')
+    c = {'title_name': 'Soil Image Classifier'}
     return HttpResponse(t.render(c))
