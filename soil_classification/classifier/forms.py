@@ -16,5 +16,19 @@ class ContactForm(forms.Form):
             raise forms.ValidationError('Please enter 5 or more words.')
         return message
 
-    
+        
+class UploadImageForm(forms.Form):
+    image = forms.ImageField() 
+
+       
+def custom_proc(request):
+    '''
+    For providing context to test_2
+    '''
+    username = request.user.get_username()
+        
+    return {
+            'app': 'my app',
+            'user': username,
+            'message': 'I am test view 2'}
     

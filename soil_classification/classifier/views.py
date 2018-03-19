@@ -4,8 +4,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
 from django.template import Template, Context, RequestContext
-from classifier.forms import ContactForm
+from classifier.forms import ContactForm, UploadImageForm
 from classifier.forms import custom_proc
+from classifier.models import Image
+
 from django.core.mail import send_mail, get_connection
 from django.template.loader import get_template
 
@@ -13,9 +15,24 @@ from django.template.loader import get_template
 version = '0.1'
 link = 'https://github.com/tonzowonzo/soil-project'
 
-def title(request):
-    return HttpResponse('Welcome to the soil image classifier.')
+def classifier(request):
+    '''
+    Main page for classification of images.
+    '''        
+    t = get_template('classifier.html')
+    c = {'title_name': 'Soil Image Classifier'}   
+    
+    # File upload
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_file(request.FILES['file'])
+            return HttpResponseRedirect('/classifier/')
+    else:
+        form = UploadImageForm()
         
+    return HttpResponse(t.render(c))
+    
 def about(request):
     '''
     Page that contains information about the project, how it works and links
@@ -72,7 +89,7 @@ def test_page(request):
     '''
     A page for testing html / css
     '''
-    t = get_template('view.html')
+    t = get_template('test.html')
     c = {'test_words': 'This is a test.',
          'test_word2': 'This is test number 2.'}
     return HttpResponse(t.render(c))

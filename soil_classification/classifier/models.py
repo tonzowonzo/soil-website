@@ -25,6 +25,8 @@ class Image(models.Model):
     soil_image = models.ImageField(upload_to='tmp')
     upload_date = models.DateTimeField()
     
+    def handle_file(f):
+        with open()
 
 class User(models.Model):
     '''
