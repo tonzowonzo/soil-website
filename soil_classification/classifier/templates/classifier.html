@@ -100,9 +100,18 @@
 						}
 					p {color:white;}
 				</style>
-					<title>Base</title>
+					<title>Soil Image Classifier</title>
 			</head>
-				<body>			
+				<body>
+				<style>
+					p {color: black}
+				</style>
+					<form method="post" enctype="multipart/form-data">{% csrf_token %}
+						<p>
+							<input id="id_image" type="file" class="" name="image">
+						</p>
+						<input type="submit" value="Submit" />
+					</form>				
 				</body>
 		</div>
 

@@ -1,4 +1,12 @@
 <html>
+<style>
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
+}
+</style>
 	<header>
 		<style>
 		header {
@@ -56,6 +64,16 @@
 		</div>
 		<div class='column'>
 		<head>
+		<form class="box" method="post" action="" enctype="multipart/form-data">
+			<div class="box__input">
+				<input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
+				<label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+				<button class="box__button" type="submit">Upload</button>
+			</div>
+			<div class="box__uploading">Uploading&hellip;</div>
+			<div class="box__success">Done!</div>
+			<div class="box__error">Error! <span></span>.</div>
+		</form>
 			<style>
 				body {
 					background-color: #EDEFF4;
@@ -84,9 +102,10 @@
 		</style>
 			<body>
 				<h2>TEST3</h1>
-				<img src='images/podzol.jpg'
-				width='200'
-				height='200'>
+				<img src='/images/podzol.jpg';
+				alt="Podzol Soil";
+				width='200';
+				height='200';>
 		</div>
 			
 	</div>
